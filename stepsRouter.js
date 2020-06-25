@@ -19,26 +19,17 @@ stepsRouter.get('/:id',(req,res)=> {
 stepsRouter.post('/:id',(req,res)=> {
   req.body.howToId = req.params.id
   return db('steps').insert(req.body)
-  .then(resp => {
+  .then(async resp => {
       if(resp){
-        return db('how-to').where({id: req.params.id})
-          .then(respo => {
-              if(respo){
-                  respo.update({steps: respo.steps += 1})
-                  res.status(200).json({message: `step ${req.body.step-number} added!`})
-              } else {
-                  res.status(400).json({message: 'step not added because...'})
-              }
-          })
-          .catch(resp => {
-              res.status(400).json({message: 'step not added sooo...'})
-          })
+        const howTo = await db('how-to').where({id: req.params.id})
+            howTo.update({steps: howTo.steps += 1})
+            res.status(200).json({message: `step ${req.body.step-number} added!`})
       } else {
-          res.status(400).json({message:'step not added.'})
+          res.status(400).json({message:'step not added sooo...'})
       }
   })
   .catch(resp => {
-    res.status(400).json({message: 'step not added.'})
+    res.status(400).json({message: 'step not added because....'})
   })
 })
 
