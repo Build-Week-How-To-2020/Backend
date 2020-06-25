@@ -2,7 +2,7 @@
 const express = require('express')
 const usersRouter = express.Router()
 const db = require('./db-config')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 usersRouter.get('/', async (req,res)=> {
@@ -15,7 +15,7 @@ usersRouter.get('/:id',(req,res)=> {
     .then(user => {
         if(user){
             res.status(200).json({user})
-        } else {
+        } else if(!user){
             res.status(404).json({message: 'user not found'})
         }
     })
@@ -39,7 +39,7 @@ usersRouter.post('/register',(req,res)=> {
       }
   })
     .catch(err => {
-        res.status(500).json({mesage: 'somwthing went wrong!'})
+        res.status(500).json({message: 'username unavailable!'})
     })
 
 })
@@ -47,14 +47,20 @@ usersRouter.post('/register',(req,res)=> {
 
 
 usersRouter.post('/login',(req,res)=> {
-   return  db('users').where({username: req.body.username})
+   let { username, password } = req.body;
+
+   return  db('users').where({username})
+    .first()
     .then(user => {
-        if(user && bcrypt.compare(req.body.password,user.password)){
+        if(user && bcrypt.compareSync(password,user.password)){
             const token = generateToken(user)
             res.status(200).json({message:`welcome ${req.body.username}!`,token})
         } else {
             res.status(404).json({message: 'invalid credentials'})
         }
+    })
+    .catch(err => {
+        res.status(500).json({message: 'something went wrong!'})
     })
 })
 
