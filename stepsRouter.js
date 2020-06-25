@@ -21,17 +21,20 @@ stepsRouter.post('/:id',(req,res)=> {
   return db('steps').insert(req.body)
   .then(resp => {
       if(resp){
-          db('how-to').where({id: req.params.id}).update({steps: steps += 1})
-          .then(resp => {
-              if(resp){
+          db('how-to').where({id: req.params.id})
+          .then(respo => {
+              if(respo){
+                  respo.update({steps: respo.steps += 1})
                   res.status(200).json({message: `step ${req.body.step-number} added!`})
               } else {
-                  res.status(400).json({message: 'step not added.'})
+                  res.status(400).json({message: 'step not added because...'})
               }
           })
           .catch(resp => {
-              res.status(400).json({message: 'step not added.'})
+              res.status(400).json({message: 'step not added sooo...'})
           })
+      } else {
+          res.status(400).json({message:'step not added.'})
       }
   })
   .catch(resp => {
