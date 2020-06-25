@@ -21,7 +21,7 @@ stepsRouter.post('/:id',(req,res)=> {
   return db('steps').insert(req.body)
   .then(resp => {
       if(resp){
-          db('how-to').where({id: req.params.id})
+        return db('how-to').where({id: req.params.id})
           .then(respo => {
               if(respo){
                   respo.update({steps: respo.steps += 1})
