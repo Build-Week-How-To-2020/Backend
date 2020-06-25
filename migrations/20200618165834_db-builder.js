@@ -17,7 +17,7 @@ exports.up = function(knex) {
     })
     .createTable('steps', (tbl)=> {
       tbl.increments('id')
-      tbl.integer('how-to-id')
+      tbl.integer('howToId')
       tbl.integer('step-number')
       tbl.string('description')
     })
