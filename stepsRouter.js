@@ -34,11 +34,32 @@ stepsRouter.post('/:id',(req,res)=> {
 })
 
 stepsRouter.put('/:id',(req,res)=> {
-  
+  const changes = req.body
+  return db('steps').where({id: req.params.id}).update(changes)
+    .then(resp => {
+        if(resp){
+            res.status(200).json({message: 'step updated!'})
+        } else {
+            res.status(400).json({message: 'step not updated.'})
+        }
+    })
+    .catch(err => {
+        res.status(400).json({message: 'step not updated.'})
+    })
 })
 
 stepsRouter.delete('/:id',(req,res)=> {
-  
+  return db('steps').where({id: req.params.id}).delete()
+   .then(resp => {
+       if(resp){
+           res.status(200).json({message: 'step delted!'})
+       } else {
+        res.status(400).json({message: 'step not deleted.'})
+       }
+   })
+   .catch(err => {
+    res.status(400).json({message: 'step not deleted.'})
+   })
 })
 
 module.exports = stepsRouter
