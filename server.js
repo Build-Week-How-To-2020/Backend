@@ -4,7 +4,7 @@ const usersRouter = require('./usersRouter')
 const howToRouter = require('./howToRouter')
 const stepsRouter = require('./stepsRouter')
 const session = require('express-session')
-
+const cors = require('cors')
 
 const sessionConfig = {
   name: 'escon',
@@ -19,6 +19,7 @@ const sessionConfig = {
 }
 
 server.use(express.json())
+server.use(cors())
 server.use(session(sessionConfig))
 server.use('/users',usersRouter)
 server.use('/howTo',howToRouter)
