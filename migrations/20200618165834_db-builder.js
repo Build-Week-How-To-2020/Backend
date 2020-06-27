@@ -14,12 +14,15 @@ exports.up = function(knex) {
       tbl.integer('userid')
       tbl.string('name')
       tbl.integer('steps')
+        .notNullable()
     })
     .createTable('steps', (tbl)=> {
       tbl.increments('id')
       tbl.integer('howToId')
       tbl.integer('step-number')
+        .notNullable()
       tbl.string('description')
+        .notNullable()
     })
 };
 
