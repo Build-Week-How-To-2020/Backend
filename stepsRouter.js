@@ -22,7 +22,6 @@ stepsRouter.post('/:id',(req,res)=> {
   .then(async resp => {
       if(resp){
         const howTo = await db('how-to').where({id: req.params.id})
-        console.log(howTo)
         return db('how-to').where({id: req.params.id}).update({steps: howTo[0].steps += 1})
             .then(resp => {
                 if(resp){
@@ -32,7 +31,6 @@ stepsRouter.post('/:id',(req,res)=> {
                 }
             })
             .catch(err => {
-                console.log(err)
                 res.status(400).json({message: 'step not added because catch 2'})
             })
       } else {
