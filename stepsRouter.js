@@ -1,6 +1,8 @@
 const db = require('./db-config')
 const express = require('express')
 const stepsRouter = express.Router()
+let {LocalStorage} = require('node-localstorage')
+LocalStorage = new LocalStorage('./scratch')
 
 stepsRouter.get('/:id',(req,res)=> {
   return db('steps').where({"howToId":req.params.id})
@@ -76,5 +78,5 @@ module.exports = stepsRouter
 
 
 
-
+LocalStorage.getItem('token') ? console.log("theres a token!",LocalStorage.getItem('token')) : console.log("no token!")
 

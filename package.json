@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "cross-env DB_ENV=testing jest --watch",
     "server": "nodemon index.js",
     "start": "node index.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "author": "steven waldron",
   "license": "ISC",
@@ -18,7 +21,12 @@
     "express-session": "^1.17.1",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.1",
+    "node-localstorage": "^2.1.6",
     "nodemon": "^2.0.4",
     "sqlite3": "^4.2.0"
+  },
+  "devDependencies": {
+    "jest": "^26.1.0",
+    "supertest": "^4.0.2"
   }
 }
